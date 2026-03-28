@@ -47,14 +47,20 @@ window.addEventListener('load', () => {
   // Check for OAuth token in URL hash (implicit flow callback)
   const hash = window.location.hash;
   if (hash.includes('access_token')) {
-    const params = new URLSearchParams(hash.slice(1));
-    const token = params.get('access_token');
-    if (token) {
-      history.replaceState(null, '', window.location.pathname);
-      handleToken(token);
-      return;
-    }
+const hash = window.location.hash;
+const search = window.location.search;
+const tokenSource = hash.includes('access_token') ? hash.slice(1) : 
+                    search.includes('access_token') ? search.slice(1) : null;
+
+if (tokenSource) {
+  const params = new URLSearchParams(tokenSource);
+  const token = params.get('access_token');
+  if (token) {
+    history.replaceState(null, '', window.location.pathname);
+    handleToken(token);
+    return;
   }
+}
 
   // Check localStorage for existing token
   const saved = localStorage.getItem('nourish_token');
