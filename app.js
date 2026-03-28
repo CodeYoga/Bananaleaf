@@ -6,7 +6,7 @@
 // ── CONFIG ───────────────────────────────────────────────────
 // IMPORTANT: Replace with your own values from Google Cloud Console
 const CONFIG = {
-  CLIENT_ID: 'YOUR_GOOGLE_CLIENT_ID.apps.googleusercontent.com',
+  CLIENT_ID: '588591713716-vh6994k5hlqdtfs87ioui0ao12d09766.apps.googleusercontent.com',
   SCOPES: 'https://www.googleapis.com/auth/drive.appdata',
   DRIVE_FILE_NAME: 'nourish-meals.json',
 };
