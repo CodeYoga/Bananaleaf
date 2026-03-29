@@ -10,68 +10,63 @@
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,400&display=swap" rel="stylesheet">
 <style>
   :root{
-    --bg:#0d1f0f;
-    --surface:#122114;
-    --surface2:#1a2e1c;
-    --border:#243d27;
-    --border2:#2f5233;
-    --accent:#c8a84b;
-    --accent2:#e85d2f;
-    --accent3:#7ec850;
-    --text:#e8f0e0;
-    --text2:#8faa80;
-    --text3:#4a6b45;
-    --success:#7ec850;
-    --radius:16px;
-    --radius-sm:10px;
+    --bg:#0d1f0f;--surface:#122114;--surface2:#1a2e1c;
+    --border:#243d27;--border2:#2f5233;
+    --accent:#c8a84b;--accent2:#e85d2f;--accent3:#7ec850;
+    --text:#e8f0e0;--text2:#8faa80;--text3:#4a6b45;
+    --success:#7ec850;--radius:16px;--radius-sm:10px;
     --shadow:0 8px 32px rgba(0,0,0,0.5)
   }
   *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
   body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min-height:100vh;overflow-x:hidden}
-
-  /* Subtle leaf-vein texture overlay */
   body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
     background-image:
       repeating-linear-gradient(82deg,rgba(126,200,80,0.018) 0px,rgba(126,200,80,0.018) 1px,transparent 1px,transparent 60px),
-      repeating-linear-gradient(170deg,rgba(126,200,80,0.012) 0px,rgba(126,200,80,0.012) 1px,transparent 1px,transparent 80px);
+      repeating-linear-gradient(170deg,rgba(126,200,80,0.012) 0px,rgba(126,200,80,0.012) 1px,transparent 1px,transparent 80px)
   }
-
   h1,h2,h3{font-family:'Syne',sans-serif}
-  .header{position:sticky;top:0;z-index:100;
-    background:linear-gradient(180deg,rgba(13,31,15,0.98) 75%,transparent);
-    padding:18px 16px 12px;
-  }
+
+  /* HEADER */
+  .header{position:sticky;top:0;z-index:100;background:linear-gradient(180deg,rgba(13,31,15,0.98) 75%,transparent);padding:18px 16px 12px}
   .header-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
   .logo{font-family:'Syne',sans-serif;font-size:22px;font-weight:800;letter-spacing:-0.03em;display:flex;align-items:center;gap:8px}
-  .logo-leaf{font-size:20px;line-height:1}
   .logo em{color:var(--accent);font-style:normal}
   .header-right{display:flex;gap:8px;align-items:center}
   .btn-icon{background:var(--surface);border:1px solid var(--border);color:var(--text2);border-radius:50%;width:40px;height:40px;display:flex;align-items:center;justify-content:center;font-size:18px;cursor:pointer;transition:background 0.15s;flex-shrink:0}
   .btn-icon:active{background:var(--surface2)}
   .sync-dot{width:8px;height:8px;border-radius:50%;background:var(--text3);flex-shrink:0;transition:background 0.3s}
-  .sync-dot.synced{background:var(--success)}.sync-dot.syncing{background:var(--accent);animation:pulse 1s infinite}.sync-dot.error{background:var(--accent2)}
+  .sync-dot.synced{background:var(--success)}
+  .sync-dot.syncing{background:var(--accent);animation:pulse 1s infinite}
+  .sync-dot.error{background:var(--accent2)}
   @keyframes pulse{0%,100%{opacity:1}50%{opacity:0.35}}
 
-  /* Week nav */
+  /* WEEK NAV */
   .week-nav{display:flex;align-items:center;justify-content:space-between;gap:12px}
   .week-nav-center{display:flex;flex-direction:column;align-items:center;gap:5px}
   .week-label{font-family:'Syne',sans-serif;font-size:15px;font-weight:700;color:var(--text);letter-spacing:-0.01em}
   .nav-btn{background:var(--surface);border:1px solid var(--border);color:var(--text2);border-radius:50%;width:36px;height:36px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:18px;flex-shrink:0;transition:all 0.15s}
   .nav-btn:active{background:var(--surface2)}
-  .today-btn{background:rgba(200,168,75,0.1);border:1px solid rgba(200,168,75,0.3);color:var(--accent);border-radius:99px;padding:3px 12px;font-size:11px;font-family:'DM Sans',sans-serif;font-weight:500;cursor:pointer;transition:all 0.15s;letter-spacing:0.03em}
-  .today-btn:active{background:rgba(200,168,75,0.2)}
+  .today-btn{background:rgba(200,168,75,0.1);border:1px solid rgba(200,168,75,0.3);color:var(--accent);border-radius:99px;padding:3px 12px;font-size:11px;font-family:'DM Sans',sans-serif;font-weight:500;cursor:pointer;letter-spacing:0.03em}
 
-  /* Table */
-  .table-wrap{padding:16px 16px 100px;overflow-x:auto;position:relative;z-index:1}
-  table{width:100%;border-collapse:separate;border-spacing:0;min-width:420px}
+  /* TABLE — key: table-layout:fixed so columns never overflow the screen */
+  .table-wrap{padding:14px 0 100px;position:relative;z-index:1}
+  table{width:100%;border-collapse:collapse;table-layout:fixed}
+
+  /* Day column fixed narrow; 4 meal cols share the rest equally */
+  col.col-day{width:40px}
+  @media(min-width:360px){col.col-day{width:48px}}
+  @media(min-width:480px){col.col-day{width:64px}}
+
   thead th{
-    font-family:'Syne',sans-serif;font-size:10px;font-weight:700;letter-spacing:0.1em;
-    text-transform:uppercase;color:var(--text3);padding:10px 12px 10px;text-align:left;
-    border-bottom:1px solid var(--border)
+    font-family:'Syne',sans-serif;font-size:9px;font-weight:700;
+    letter-spacing:0.07em;text-transform:uppercase;color:var(--text3);
+    padding:8px 3px;text-align:left;border-bottom:1px solid var(--border);
+    overflow:hidden;white-space:nowrap
   }
-  thead th:first-child{width:68px}
-  tbody tr{cursor:pointer;transition:background 0.12s;border-bottom:1px solid var(--border)}
-  tbody tr:last-child td{border-bottom:none}
+  @media(min-width:360px){thead th{padding:8px 5px;font-size:9px}}
+  @media(min-width:480px){thead th{padding:10px 10px;font-size:10px}}
+
+  tbody tr{cursor:pointer;transition:background 0.12s}
   tbody tr td{border-bottom:1px solid var(--border)}
   tbody tr:last-child td{border-bottom:none}
   tbody tr:active{background:var(--surface2)}
@@ -79,20 +74,31 @@
   tbody tr.today td{background:rgba(200,168,75,0.06)}
   tbody tr.today:hover td{background:rgba(200,168,75,0.09)}
   tbody tr.today .day-name{color:var(--accent)}
-  td{padding:13px 12px;vertical-align:top;font-size:13px}
-  .day-cell{display:flex;flex-direction:column;gap:2px}
-  .day-name{font-family:'Syne',sans-serif;font-weight:700;font-size:12px;text-transform:uppercase;letter-spacing:0.05em;color:var(--text)}
-  .day-date{font-size:11px;color:var(--text3)}
-  .meal-val{color:var(--text);line-height:1.45;font-size:13px;font-weight:300}
-  .meal-empty{color:var(--text3);font-size:12px}
+  tbody tr.today td:first-child{border-left:2px solid var(--accent)}
 
-  /* Drive banner */
+  td{padding:9px 3px;vertical-align:top;overflow:hidden;word-break:break-word}
+  @media(min-width:360px){td{padding:10px 5px}}
+  @media(min-width:480px){td{padding:12px 10px}}
+
+  .day-cell{display:flex;flex-direction:column;gap:1px}
+  .day-name{font-family:'Syne',sans-serif;font-weight:700;font-size:10px;text-transform:uppercase;letter-spacing:0.03em;color:var(--text);line-height:1.2}
+  .day-date{font-size:9px;color:var(--text3);white-space:nowrap}
+  @media(min-width:360px){.day-name{font-size:11px}.day-date{font-size:10px}}
+  @media(min-width:480px){.day-name{font-size:12px}.day-date{font-size:11px}}
+
+  /* Clamp meal text to 3 lines so rows stay compact */
+  .meal-val{color:var(--text);line-height:1.35;font-size:11px;font-weight:300;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+  .meal-empty{color:var(--text3);font-size:10px}
+  @media(min-width:360px){.meal-val{font-size:12px}.meal-empty{font-size:11px}}
+  @media(min-width:480px){.meal-val{font-size:13px}.meal-empty{font-size:12px}}
+
+  /* DRIVE BANNER */
   .gdrive-banner{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:14px 16px;margin:0 16px 14px;display:flex;align-items:center;gap:12px;position:relative;z-index:1}
   .gdrive-banner-text{flex:1;font-size:13px;color:var(--text2);line-height:1.5}
   .gdrive-banner-text strong{color:var(--text);display:block;margin-bottom:2px}
   .btn-gdrive{background:var(--accent);border:none;color:#1a0f00;border-radius:var(--radius-sm);padding:8px 14px;font-family:'Syne',sans-serif;font-size:13px;font-weight:700;cursor:pointer;flex-shrink:0;white-space:nowrap}
 
-  /* Overlays */
+  /* OVERLAYS */
   .overlay{position:fixed;inset:0;background:rgba(5,12,6,0.88);backdrop-filter:blur(6px);z-index:300;display:flex;align-items:flex-end;justify-content:center;opacity:0;pointer-events:none;transition:opacity 0.2s}
   .overlay.open{opacity:1;pointer-events:all}
   .sheet{background:var(--surface);border:1px solid var(--border);border-radius:24px 24px 0 0;width:100%;max-width:600px;padding:20px 20px 36px;transform:translateY(30px);transition:transform 0.25s cubic-bezier(.22,1,.36,1);max-height:92vh;overflow-y:auto}
@@ -101,40 +107,21 @@
   .sheet-title{font-family:'Syne',sans-serif;font-size:20px;font-weight:700;color:var(--text);margin-bottom:4px}
   .sheet-sub{font-size:13px;color:var(--text3);margin-bottom:22px;font-style:italic}
 
-  /* Meal fields */
+  /* FORM */
   .meal-fields{display:flex;flex-direction:column;gap:14px;margin-bottom:4px}
   .form-group{display:flex;flex-direction:column;gap:7px}
   .form-label{font-size:11px;font-weight:600;color:var(--text2);letter-spacing:0.07em;text-transform:uppercase;display:flex;align-items:center;gap:6px}
-  .form-label-icon{font-size:14px;line-height:1}
-  .form-textarea{
-    width:100%;background:var(--surface2);border:1.5px solid var(--border);border-radius:var(--radius-sm);
-    padding:11px 13px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:15px;font-weight:300;
-    outline:none;transition:border-color 0.2s;resize:none;height:70px;line-height:1.5
-  }
+  .form-textarea{width:100%;background:var(--surface2);border:1.5px solid var(--border);border-radius:var(--radius-sm);padding:11px 13px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:15px;font-weight:300;outline:none;transition:border-color 0.2s;resize:none;height:70px;line-height:1.5}
   .form-textarea:focus{border-color:var(--accent)}
   .form-textarea::placeholder{color:var(--text3)}
-
-  /* Form actions */
   .form-actions{display:flex;gap:10px;margin-top:22px}
-  .btn-primary{
-    flex:1;background:var(--accent);border:none;color:#0d1f0f;border-radius:var(--radius-sm);
-    padding:14px;font-family:'Syne',sans-serif;font-size:15px;font-weight:700;cursor:pointer;transition:opacity 0.15s
-  }
+  .btn-primary{flex:1;background:var(--accent);border:none;color:#0d1f0f;border-radius:var(--radius-sm);padding:14px;font-family:'Syne',sans-serif;font-size:15px;font-weight:700;cursor:pointer;transition:opacity 0.15s}
   .btn-primary:active{opacity:0.85}
-  .btn-secondary{
-    background:var(--surface2);border:1px solid var(--border);color:var(--text2);border-radius:var(--radius-sm);
-    padding:14px 20px;font-family:'DM Sans',sans-serif;font-size:15px;cursor:pointer
-  }
-  .btn-danger{
-    flex:1;background:rgba(232,93,47,0.1);border:1px solid rgba(232,93,47,0.25);color:var(--accent2);
-    border-radius:var(--radius-sm);padding:14px;font-family:'Syne',sans-serif;font-size:15px;font-weight:700;cursor:pointer
-  }
+  .btn-secondary{background:var(--surface2);border:1px solid var(--border);color:var(--text2);border-radius:var(--radius-sm);padding:14px 20px;font-family:'DM Sans',sans-serif;font-size:15px;cursor:pointer}
+  .btn-danger{flex:1;background:rgba(232,93,47,0.1);border:1px solid rgba(232,93,47,0.25);color:var(--accent2);border-radius:var(--radius-sm);padding:14px;font-family:'Syne',sans-serif;font-size:15px;font-weight:700;cursor:pointer}
   .info-box{background:var(--surface2);border-radius:var(--radius-sm);padding:14px;font-size:14px;color:var(--text2);line-height:1.8}
 
-  /* Decorative stripe at top of today row */
-  tbody tr.today td:first-child{border-left:2px solid var(--accent)}
-
-  /* Toast */
+  /* TOAST */
   .toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--surface);border:1px solid var(--border2);border-radius:99px;padding:10px 22px;font-size:14px;font-weight:500;color:var(--text);box-shadow:var(--shadow);opacity:0;transition:opacity 0.2s,transform 0.2s;white-space:nowrap;z-index:999;pointer-events:none}
   .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
   .toast.success{border-color:rgba(126,200,80,0.5);color:var(--success)}
@@ -142,7 +129,7 @@
   .toast.info{border-color:rgba(200,168,75,0.5);color:var(--accent)}
 
   @media(min-width:600px){
-    .table-wrap,.header,.gdrive-banner{max-width:720px;margin-left:auto;margin-right:auto}
+    .table-wrap,.header,.gdrive-banner{max-width:800px;margin-left:auto;margin-right:auto}
     .overlay{align-items:center}
     .sheet{border-radius:24px;margin-bottom:20px}
   }
@@ -152,10 +139,7 @@
 
 <div class="header" style="position:relative;z-index:1">
   <div class="header-top">
-    <div class="logo">
-      <span class="logo-leaf">🍃</span>
-      Banana <em>Leaf</em>
-    </div>
+    <div class="logo">🍃 Banana <em>Leaf</em></div>
     <div class="header-right">
       <div class="sync-dot" id="syncDot" title="Sync status"></div>
       <div class="btn-icon" id="driveBtn" onclick="handleDriveBtn()" title="Google Drive sync">☁️</div>
@@ -182,10 +166,14 @@
 
 <div class="table-wrap">
   <table>
+    <colgroup>
+      <col class="col-day">
+      <col><col><col><col>
+    </colgroup>
     <thead>
       <tr>
         <th>Day</th>
-        <th>Breakfast</th>
+        <th>Bfast</th>
         <th>Lunch</th>
         <th>Dinner</th>
         <th>Snack</th>
@@ -205,19 +193,19 @@
     <div class="sheet-sub" id="editSub"></div>
     <div class="meal-fields">
       <div class="form-group">
-        <label class="form-label"><span class="form-label-icon">🌅</span> Breakfast</label>
+        <label class="form-label">🌅 Breakfast</label>
         <textarea class="form-textarea" id="fBreakfast" placeholder="e.g. Idli with sambar and chutney…"></textarea>
       </div>
       <div class="form-group">
-        <label class="form-label"><span class="form-label-icon">☀️</span> Lunch</label>
+        <label class="form-label">☀️ Lunch</label>
         <textarea class="form-textarea" id="fLunch" placeholder="e.g. Rice, rasam, kootu, papad…"></textarea>
       </div>
       <div class="form-group">
-        <label class="form-label"><span class="form-label-icon">🌙</span> Dinner</label>
+        <label class="form-label">🌙 Dinner</label>
         <textarea class="form-textarea" id="fDinner" placeholder="e.g. Chapati with dal and sabzi…"></textarea>
       </div>
       <div class="form-group">
-        <label class="form-label"><span class="form-label-icon">🍎</span> Snack</label>
+        <label class="form-label">🍎 Snack</label>
         <textarea class="form-textarea" id="fSnack" placeholder="e.g. Murukku, chai, fruit…"></textarea>
       </div>
     </div>
@@ -240,37 +228,39 @@
 
 <script src="https://accounts.google.com/gsi/client" async defer></script>
 <script>
-// ── CONFIG ────────────────────────────────────
-const CLIENT_ID = '588591713716-vh6994k5hlqdtfs87ioui0ao12d09766.apps.googleusercontent.com';
-const SCOPES = 'https://www.googleapis.com/auth/drive.appdata';
+const CLIENT_ID = 'YOUR_GOOGLE_CLIENT_ID';
+const SCOPES    = 'https://www.googleapis.com/auth/drive.appdata';
 const DATA_FILE = 'bananaleaf-meals.json';
 
-// ── STATE ─────────────────────────────────────
 let meals = {};
 let currentWeekStart = getWeekStart(new Date());
 let editingDate = null;
 let accessToken = null, driveFileId = null, syncTimer = null, saving = false;
 
-// ── UTILS ─────────────────────────────────────
+// ── DATE UTILS ────────────────────────────────
 function pad(n){ return String(n).padStart(2,'0'); }
 function dateKey(d){ return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`; }
 function addDays(d,n){ const r=new Date(d); r.setDate(r.getDate()+n); return r; }
+
+// Sunday start: getDay() returns 0 for Sunday, so just subtract that many days
 function getWeekStart(d){
-  const r=new Date(d); r.setHours(0,0,0,0);
-  const day=r.getDay(); const diff=day===0?-6:1-day;
-  r.setDate(r.getDate()+diff); return r;
+  const r=new Date(d);
+  r.setHours(0,0,0,0);
+  r.setDate(r.getDate()-r.getDay());
+  return r;
 }
+
 function fmtDay(d){ return d.toLocaleDateString('en-US',{weekday:'short'}).toUpperCase(); }
-function fmtDate(d){ return d.toLocaleDateString('en-US',{month:'short',day:'numeric'}); }
-function fmtWeek(start){
-  const end=addDays(start,6);
-  const sm=start.toLocaleDateString('en-US',{month:'short'});
-  const em=end.toLocaleDateString('en-US',{month:'short'});
-  if(sm===em) return `${sm} ${start.getDate()} – ${end.getDate()}`;
-  return `${sm} ${start.getDate()} – ${em} ${end.getDate()}`;
+function fmtDate(d){ return d.toLocaleDateString('en-US',{month:'numeric',day:'numeric'}); }
+function fmtWeek(s){
+  const e=addDays(s,6);
+  const sm=s.toLocaleDateString('en-US',{month:'short'});
+  const em=e.toLocaleDateString('en-US',{month:'short'});
+  return sm===em ? `${sm} ${s.getDate()} – ${e.getDate()}` : `${sm} ${s.getDate()} – ${em} ${e.getDate()}`;
 }
 const esc=s=>String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 
+// ── UI HELPERS ────────────────────────────────
 function toast(msg,type='success'){
   const el=document.getElementById('toast');
   el.textContent=msg; el.className='toast '+type+' show';
@@ -283,84 +273,76 @@ function setSyncDot(s){
 }
 
 // ── LOCAL STORAGE ─────────────────────────────
-function saveLocal(){ try{ localStorage.setItem('bl_meals', JSON.stringify(meals)); }catch{} }
-function loadLocal(){ try{ const m=localStorage.getItem('bl_meals'); if(m) meals=JSON.parse(m); }catch{} }
+function saveLocal(){ try{localStorage.setItem('bl_meals',JSON.stringify(meals));}catch{} }
+function loadLocal(){ try{const m=localStorage.getItem('bl_meals');if(m)meals=JSON.parse(m);}catch{} }
 
 // ── RENDER ────────────────────────────────────
 function renderWeek(){
-  document.getElementById('weekLabel').textContent = fmtWeek(currentWeekStart);
-  const tbody = document.getElementById('weekBody');
-  const todayKey = dateKey(new Date());
-  let html = '';
+  document.getElementById('weekLabel').textContent=fmtWeek(currentWeekStart);
+  const tbody=document.getElementById('weekBody');
+  const todayKey=dateKey(new Date());
+  let html='';
   for(let i=0;i<7;i++){
-    const d = addDays(currentWeekStart, i);
-    const key = dateKey(d);
-    const m = meals[key] || {};
-    const isToday = key === todayKey;
-    const cell = v => v
-      ? `<span class="meal-val">${esc(v)}</span>`
-      : `<span class="meal-empty">—</span>`;
-    html += `<tr class="${isToday?'today':''}" onclick="openEdit('${key}','${fmtDay(d)} ${fmtDate(d)}')">
+    const d=addDays(currentWeekStart,i);
+    const key=dateKey(d);
+    const m=meals[key]||{};
+    const isToday=key===todayKey;
+    const cell=v=>v?`<span class="meal-val">${esc(v)}</span>`:`<span class="meal-empty">—</span>`;
+    html+=`<tr class="${isToday?'today':''}" onclick="openEdit('${key}','${fmtDay(d)} ${fmtDate(d)}')">
       <td><div class="day-cell"><span class="day-name">${fmtDay(d)}</span><span class="day-date">${fmtDate(d)}</span></div></td>
-      <td>${cell(m.breakfast)}</td>
-      <td>${cell(m.lunch)}</td>
-      <td>${cell(m.dinner)}</td>
-      <td>${cell(m.snack)}</td>
+      <td>${cell(m.breakfast)}</td><td>${cell(m.lunch)}</td><td>${cell(m.dinner)}</td><td>${cell(m.snack)}</td>
     </tr>`;
   }
-  tbody.innerHTML = html;
+  tbody.innerHTML=html;
 }
 
 function changeWeek(dir){ currentWeekStart=addDays(currentWeekStart,dir*7); renderWeek(); }
 function goToToday(){ currentWeekStart=getWeekStart(new Date()); renderWeek(); }
 
 // ── EDIT SHEET ────────────────────────────────
-function openEdit(key, label){
-  editingDate = key;
-  const m = meals[key] || {};
-  document.getElementById('editTitle').textContent = label;
-  document.getElementById('editSub').textContent = key;
-  document.getElementById('fBreakfast').value = m.breakfast || '';
-  document.getElementById('fLunch').value     = m.lunch     || '';
-  document.getElementById('fDinner').value    = m.dinner    || '';
-  document.getElementById('fSnack').value     = m.snack     || '';
+function openEdit(key,label){
+  editingDate=key;
+  const m=meals[key]||{};
+  document.getElementById('editTitle').textContent=label;
+  document.getElementById('editSub').textContent=key;
+  document.getElementById('fBreakfast').value=m.breakfast||'';
+  document.getElementById('fLunch').value=m.lunch||'';
+  document.getElementById('fDinner').value=m.dinner||'';
+  document.getElementById('fSnack').value=m.snack||'';
   openOverlay('editOverlay');
   setTimeout(()=>document.getElementById('fBreakfast').focus(),300);
 }
 function saveMeal(){
-  if(!editingDate) return;
+  if(!editingDate)return;
   const entry={
     breakfast:document.getElementById('fBreakfast').value.trim(),
-    lunch:    document.getElementById('fLunch').value.trim(),
-    dinner:   document.getElementById('fDinner').value.trim(),
-    snack:    document.getElementById('fSnack').value.trim(),
+    lunch:document.getElementById('fLunch').value.trim(),
+    dinner:document.getElementById('fDinner').value.trim(),
+    snack:document.getElementById('fSnack').value.trim(),
   };
-  if(entry.breakfast||entry.lunch||entry.dinner||entry.snack){ meals[editingDate]=entry; }
-  else{ delete meals[editingDate]; }
-  closeOverlay('editOverlay');
-  scheduleSave();
-  renderWeek();
-  toast('Saved ✓');
+  if(entry.breakfast||entry.lunch||entry.dinner||entry.snack){meals[editingDate]=entry;}
+  else{delete meals[editingDate];}
+  closeOverlay('editOverlay'); scheduleSave(); renderWeek(); toast('Saved ✓');
 }
 
 // ── OVERLAYS ──────────────────────────────────
-function openOverlay(id){ document.getElementById(id).classList.add('open'); }
-function closeOverlay(id){ document.getElementById(id).classList.remove('open'); }
-function closeOnBg(e,id){ if(e.target===document.getElementById(id)) closeOverlay(id); }
+function openOverlay(id){document.getElementById(id).classList.add('open');}
+function closeOverlay(id){document.getElementById(id).classList.remove('open');}
+function closeOnBg(e,id){if(e.target===document.getElementById(id))closeOverlay(id);}
 
 // ── GOOGLE AUTH ───────────────────────────────
 function initGoogleAuth(){
-  if(typeof google==='undefined'||!google.accounts){ setTimeout(initGoogleAuth,600); return; }
+  if(typeof google==='undefined'||!google.accounts){setTimeout(initGoogleAuth,600);return;}
   const tok=sessionStorage.getItem('bl_token');
-  if(tok){ accessToken=tok; onSignedIn(false); }
-  else{ document.getElementById('gdriveBanner').style.display='flex'; setSyncDot('idle'); }
+  if(tok){accessToken=tok;onSignedIn(false);}
+  else{document.getElementById('gdriveBanner').style.display='flex';setSyncDot('idle');}
 }
 function signIn(){
-  if(typeof google==='undefined'){ toast('Google not ready','error'); return; }
+  if(typeof google==='undefined'){toast('Google not ready','error');return;}
   google.accounts.oauth2.initTokenClient({
-    client_id:CLIENT_ID, scope:SCOPES,
+    client_id:CLIENT_ID,scope:SCOPES,
     callback:r=>{
-      if(r.error){ toast('Sign-in failed','error'); return; }
+      if(r.error){toast('Sign-in failed','error');return;}
       accessToken=r.access_token;
       sessionStorage.setItem('bl_token',accessToken);
       onSignedIn(true);
@@ -371,10 +353,10 @@ function onSignedIn(fresh){
   document.getElementById('gdriveBanner').style.display='none';
   document.getElementById('driveBtn').textContent='✅';
   setSyncDot('syncing');
-  if(fresh) toast('Connected to Google Drive ✓','info');
+  if(fresh)toast('Connected to Google Drive ✓','info');
   loadFromDrive();
 }
-function handleDriveBtn(){ accessToken?showDriveInfo():signIn(); }
+function handleDriveBtn(){accessToken?showDriveInfo():signIn();}
 function showDriveInfo(){
   document.getElementById('driveInfoBody').innerHTML=`
     <div class="info-box">✅ Connected to Google Drive<br>📁 Saved to: <strong style="color:var(--text)">App Data folder</strong><br>🔄 Auto-saves after every change<br>🔒 Private — only Banana Leaf can access it</div>
@@ -382,53 +364,51 @@ function showDriveInfo(){
   openOverlay('driveInfoOverlay');
 }
 function signOut(){
-  accessToken=null; driveFileId=null;
+  accessToken=null;driveFileId=null;
   sessionStorage.removeItem('bl_token');
   document.getElementById('driveBtn').textContent='☁️';
   document.getElementById('gdriveBanner').style.display='flex';
-  setSyncDot('idle'); closeOverlay('driveInfoOverlay');
+  setSyncDot('idle');closeOverlay('driveInfoOverlay');
   toast('Disconnected from Drive');
 }
 
 // ── DRIVE LOAD ────────────────────────────────
 async function loadFromDrive(){
-  if(!accessToken){ loadLocal(); renderWeek(); return; }
+  if(!accessToken){loadLocal();renderWeek();return;}
   setSyncDot('syncing');
   try{
-    const r=await fetch(
-      `https://www.googleapis.com/drive/v3/files?spaces=appDataFolder&fields=files(id,name)&q=name%3D%27${DATA_FILE}%27`,
-      {headers:{Authorization:'Bearer '+accessToken}}
-    );
+    const r=await fetch(`https://www.googleapis.com/drive/v3/files?spaces=appDataFolder&fields=files(id,name)&q=name%3D%27${DATA_FILE}%27`,
+      {headers:{Authorization:'Bearer '+accessToken}});
     const d=await r.json();
     if(d.files&&d.files.length){
       driveFileId=d.files[0].id;
       const fr=await fetch(`https://www.googleapis.com/drive/v3/files/${driveFileId}?alt=media`,
         {headers:{Authorization:'Bearer '+accessToken}});
       const data=await fr.json();
-      meals=data.meals||{}; saveLocal(); setSyncDot('synced'); toast('Loaded from Drive ✓');
+      meals=data.meals||{};saveLocal();setSyncDot('synced');toast('Loaded from Drive ✓');
     }else{
-      loadLocal(); setSyncDot('synced');
-      if(Object.keys(meals).length) saveToDrive();
+      loadLocal();setSyncDot('synced');
+      if(Object.keys(meals).length)saveToDrive();
     }
-  }catch(e){ console.error(e); loadLocal(); setSyncDot('error'); toast('Drive load failed','error'); }
+  }catch(e){console.error(e);loadLocal();setSyncDot('error');toast('Drive load failed','error');}
   renderWeek();
 }
 
 // ── DRIVE SAVE ────────────────────────────────
 function scheduleSave(){
   saveLocal();
-  if(!accessToken){ setSyncDot('idle'); return; }
-  setSyncDot('syncing'); clearTimeout(syncTimer);
+  if(!accessToken){setSyncDot('idle');return;}
+  setSyncDot('syncing');clearTimeout(syncTimer);
   syncTimer=setTimeout(saveToDrive,1500);
 }
 async function saveToDrive(){
-  if(!accessToken||saving) return;
+  if(!accessToken||saving)return;
   saving=true;
   const payload=JSON.stringify({meals,savedAt:Date.now()});
   try{
     if(driveFileId){
-      await fetch(`https://www.googleapis.com/upload/drive/v3/files/${driveFileId}?uploadType=media`,{
-        method:'PATCH',headers:{Authorization:'Bearer '+accessToken,'Content-Type':'application/json'},body:payload});
+      await fetch(`https://www.googleapis.com/upload/drive/v3/files/${driveFileId}?uploadType=media`,
+        {method:'PATCH',headers:{Authorization:'Bearer '+accessToken,'Content-Type':'application/json'},body:payload});
     }else{
       const form=new FormData();
       form.append('metadata',new Blob([JSON.stringify({name:DATA_FILE,parents:['appDataFolder']})],{type:'application/json'}));
@@ -438,15 +418,15 @@ async function saveToDrive(){
       driveFileId=(await res.json()).id;
     }
     setSyncDot('synced');
-  }catch(e){ console.error(e); setSyncDot('error'); toast('Drive save failed','error'); }
+  }catch(e){console.error(e);setSyncDot('error');toast('Drive save failed','error');}
   saving=false;
 }
 
 // ── SERVICE WORKER ────────────────────────────
-if('serviceWorker' in navigator){ navigator.serviceWorker.register('sw.js').catch(()=>{}); }
+if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js').catch(()=>{});}
 
 // ── INIT ──────────────────────────────────────
-loadLocal(); renderWeek(); initGoogleAuth();
+loadLocal();renderWeek();initGoogleAuth();
 </script>
 </body>
 </html>
