@@ -2,7 +2,7 @@
   "name": "Banana Leaf – Meal Tracker",
   "short_name": "Banana Leaf",
   "description": "Track your daily meals. Sync to Google Drive optionally.",
-  "start_url": "/",
+  "start_url": "https://codeyoga.github.io/Bananaleaf",
   "display": "standalone",
   "background_color": "#0d1f0f",
   "theme_color": "#0d1f0f",
